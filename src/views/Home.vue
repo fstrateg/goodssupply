@@ -16,6 +16,7 @@
           <th>ROI</th>
           <th>Total profit</th>
           <th>Status</th>
+          <th>Command</th>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +31,11 @@
           <td>{{rw.roi}}%</td>
           <td><b>{{rw.profit_total}}$</b></td>
           <td><span class="material-icons md-dark">{{rw.icon}}</span></td>
+          <td><div class="btn-group">
+            <router-link class="btn btn-sm" tag="button" :to="'/supply/'+rw.id">
+            <span class="material-icons">edit</span></router-link>
+            <span class="btn material-icons">delete</span></div>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -66,6 +72,7 @@
       format_date(value){
         if (value) {
           return moment(String(value)).format('DD.MM.YYYY')
+          //return new Date(value).toLocaleString()
         }
       },
     },
