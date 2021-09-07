@@ -33,7 +33,7 @@
 
             <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
                 <label for="fba" class="form-label">Fba fee:</label>
-                <input id="fba" class="form-control" type="number" :value="record.fba">
+                <input id="fba" class="form-control" type="number" step="any" :value="record.fba">
             </div>
 
             <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
@@ -56,7 +56,12 @@
 
             <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
                 <label for="status" class="form-label">Status:</label>
-                <input id="status" class="form-control" type="text" :value="record.status_id">
+                <select id="status" class="form-control" v-model="record.status_id">
+                    <option v-for="option in sprstatus" v-bind:value="option.id">
+                        {{ option.status }}
+                    </option>
+                    <option value="5" text="Test"></option>
+                </select>
             </div>
             <div class="col mt-3">
                 <button type="submit" class="btn btn-primary">Сохранить</button>
@@ -83,7 +88,8 @@
         data() {
             return{
                 record:null,
-                sprgoods:null
+                sprgoods:null,
+                sprstatus:null,
             }
         },
         components:
@@ -101,11 +107,24 @@
                 if (response.data.length > 0)
                     this.sprgoods = response.data;
             });
+            await inst.get('sprstatus').then((response) => {
+                if (response.data.length>0)
+                    this.sprstatus = response.data;
+            })
+
         },
         methods:{
             SaveRecord()
             {
-                alert('save');
+                //debugger
+                var values=JSON.stringify(this.record);
+
+                inst.post('savesupply', values).then((response)=>
+                {
+                    this.$router.push('/');
+                }).catch((res)=>console.log(res));
+                //console.log(values);
+
             }
         },
 
