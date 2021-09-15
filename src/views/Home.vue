@@ -67,7 +67,7 @@
     methods: {
       AddSupply()
       {
-        alert('test AddSupply')
+        this.$router.push('/supply/id=-1');
       },
       format_date(value){
         if (value) {
