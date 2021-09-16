@@ -21,7 +21,7 @@
         </thead>
         <tbody>
         <tr v-for="rw in supplys">
-          <td>{{rw.good_name}}</td>
+          <td class="cl-nam"><img class="goods-img" :src="'http://localhost:3000/images/products/'+rw.img_id+'.png'"/>{{rw.good_name}}</td>
           <td>{{format_date(rw.dat)}}</td>
           <td>{{rw.qua}}</td>
           <td>{{rw.cost}}</td>
@@ -42,6 +42,17 @@
   </div>
   </div>
 </template>
+
+<style type="text/css" scoped>
+  .cl-nam{
+    text-align: left;
+  }
+  .goods-img{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+</style>
 
 <script>
   const axios=require('axios')

@@ -18,7 +18,9 @@
                     <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+item.img_id+'.png'"></td>
                     <td>{{item.name}}</td>
                     <td>{{item.prep_defs}}</td>
-                    <td><div class="btn-group"><span class="btn material-icons">edit</span>
+                    <td><div class="btn-group">
+                        <router-link class="btn btn-sm" tag="button" :to="'/good/'+item.id">
+                            <span class="btn material-icons">edit</span></router-link>
                         <span class="btn material-icons">delete</span></div>
                     </td>
                 </tr>
