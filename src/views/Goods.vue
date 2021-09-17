@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 <tr v-for="item in goods">
-                    <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+item.img_id+'.png'"></td>
+                    <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+item.img_id+'.png'" alt="http://localhost:3000/images/products/0.png"></td>
                     <td>{{item.name}}</td>
                     <td>{{item.prep_defs}}</td>
                     <td><div class="btn-group">
@@ -50,7 +50,7 @@
         methods:{
             AddProduct()
             {
-                window.alert('Add product');
+                this.$router.push('/good/-1')
             }
         },
         async mounted() {
