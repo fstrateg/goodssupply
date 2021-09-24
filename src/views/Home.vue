@@ -55,16 +55,9 @@
 </style>
 
 <script>
-  const axios=require('axios')
+
+  const {backend} =require('../backend')
   const moment=require('moment')
-
-
-  const inst=axios.create({
-    baseURL: 'http://localhost:8080',
-    headers: {
-      accept: 'application/json'
-    }
-  })
 
   export default {
     name: "Home",
@@ -88,10 +81,8 @@
       },
     },
     async mounted() {
-
-      await inst.get('supply').then((response) => {
+      await backend.get('supply').then((response) => {
         this.supplys=response.data
-        console.log(response.data)
       })
     }
   }

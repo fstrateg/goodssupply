@@ -88,15 +88,8 @@
 <script>
     import { ElDatePicker } from 'element-plus'
     import 'element-plus/dist/index.css'
+    import {backend} from "../backend";
 
-    const axios=require('axios')
-
-    const inst=axios.create({
-        baseURL: 'http://localhost:8080',
-        headers: {
-            accept: 'application/json'
-        }
-    })
     export default {
         name: "Supply",
         data() {
@@ -126,7 +119,7 @@
             },
         async created(){
             var id=this.$route.params['id'];
-            await inst.get('supplybyid/'+id).then((response) => {
+            await backend.get('supplybyid/'+id).then((response) => {
                 if (response.data.length>0)
                     this.record=response.data[0];
                 else
@@ -134,11 +127,11 @@
                     this.record.dat=new Date().toDateString();
                 }
             });
-            await inst.get('sprgoods').then((response) => {
+            await backend.get('sprgoods').then((response) => {
                 if (response.data.length > 0)
                     this.sprgoods = response.data;
             });
-            await inst.get('sprstatus').then((response) => {
+            await backend.get('sprstatus').then((response) => {
                 if (response.data.length>0)
                     this.sprstatus = response.data;
             })
@@ -150,7 +143,7 @@
                 //debugger
                 var values=this.record;
 
-                inst.post('savesupply', values).then(()=>
+                backend.post('savesupply', values).then(()=>
                 {
                     this.$router.push('/');
                 }).catch((res)=>console.log(res));

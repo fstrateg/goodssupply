@@ -3,7 +3,7 @@
         <h1>This is an goods directory</h1>
     </div>
     <button class="btn btn-primary" @click="AddProduct">Add product</button>
-    <div class="mx-auto p-3">
+    <div class="mx-auto p-3 col-xl-6">
         <table  class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 <tr v-for="item in goods">
-                    <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+item.img_id+'.png'" alt="http://localhost:3000/images/products/0.png"></td>
+                    <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+item.img_id+'.png'"></td>
                     <td>{{item.name}}</td>
                     <td>{{item.prep_defs}}</td>
                     <td><div class="btn-group">
@@ -32,13 +32,7 @@
 </template>
 
 <script>
-    const axios=require('axios')
-    const inst=axios.create({
-        baseURL: 'http://localhost:8080',
-        headers: {
-            accept: 'application/json'
-        }
-    })
+    import {backend} from "../backend";
 
     export default {
         name: "Goods",
@@ -55,7 +49,7 @@
         },
         async mounted() {
 
-            await inst.get('goods').then((response) => {
+            await backend.get('goods').then((response) => {
                 this.goods=response.data
                 //console.log(response.data)
             })
