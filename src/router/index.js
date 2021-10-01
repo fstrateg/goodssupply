@@ -33,7 +33,8 @@ const routes = [
   {
     path: '/moving',
     name: 'Moving',
-    component: () => import('../views/Moving.vue')
+    //component: () => import('../views/Moving.vue')
+    component: () => import('../views/MoveTable.vue')
   },
   {
     path: '/move/:id',

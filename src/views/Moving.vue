@@ -24,7 +24,7 @@
                 <td><div class="btn-group">
                     <router-link class="btn btn-sm" tag="button" :to="'/move/'+rw.id">
                         <span class="btn material-icons">edit</span></router-link>
-                    <span class="btn material-icons">delete</span></div>
+                    <span class="btn material-icons" v-on:click="DeleteRecord(rw.id)">delete</span></div>
                 </td>
             </tr>
             </tbody>
@@ -50,7 +50,11 @@
                     //return new Date(value).toLocaleString()
                 }
             },
-            AddRecord(){this.$router.push('/move/-1')}
+            AddRecord(){this.$router.push('/move/-1')},
+            DeleteRecord(id){
+                if (confirm("You really want delete this record?"))
+                    backend.get('movedelete/'+id)
+            }
         },
         async mounted() {
 

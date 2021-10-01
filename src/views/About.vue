@@ -3,50 +3,15 @@
     <h1>This is an about page</h1>
   </div>
   <p>
-    <button @click="showModal">
-      Show modal
-    </button>
   </p>
-  <!-- If the option changed modal component the name
-  <MyModal>
-  -->
-  <Modal
-          v-model="isShow"
-          :close="closeModal"
-  >
     <div class="modal">
       <p>
         Hello
       </p>
-      <button @click="closeModal">
-        close
-      </button>
     </div>
-  </Modal>
 </template>
 
 <script>
-  import { defineComponent, ref } from 'vue'
-
-  export default defineComponent({
-    setup () {
-      const isShow = ref(false)
-
-      function showModal () {
-        isShow.value = true
-      }
-
-      function closeModal () {
-        isShow.value = false
-      }
-
-      return {
-        isShow,
-        showModal,
-        closeModal
-      }
-    }
-  })
 </script>
 
 <style scoped>

@@ -1,35 +1,26 @@
 <template>
     <h1>Remains of goods on Prep</h1>
-    <div class="mx-auto p-3 col-xl-6">
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>
-                Picture
-            </th>
-            <th class="text-start">
-                Name
-            </th>
-            <th>
-                Quantity
-            </th>
-        </tr>
-
-        </thead>
-        <tbody>
-        <tr v-for="rw in remains">
-            <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+rw.img_id+'.png'"></td>
-            <td class="text-start">{{rw.name}}</td>
-            <td>{{rw.ost}}</td>
-        </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="2" class="text-start"><b>Total:</b></td>
-                <td><b>{{total}}</b></td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="container mx-auto p-3 col-xl-6">
+        <el-table style="margin: auto" show-summary :data="remains">
+            <el-table-column
+                    label="Picture"
+                    width="75"
+            >
+                <template v-slot="scope">
+                    <img class="goods-img" :src="'http://localhost:3000/images/products/'+scope.row.img_id+'.png'">
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="Name"
+                    prop="name"
+                    width="400"
+            ></el-table-column>
+                <el-table-column
+                        label="Remains"
+                        prop="ost"
+                        width="90"
+                ></el-table-column>
+        </el-table>
     </div>
 </template>
 
@@ -59,6 +50,9 @@
 </script>
 
 <style scoped>
+    .container{
+        width: 600px;
+    }
     .goods-img{
         width: 60px; height: 60px;
     }

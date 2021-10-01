@@ -2,32 +2,47 @@
     <div class="goods">
         <h1>This is an goods directory</h1>
     </div>
-    <button class="btn btn-primary" @click="AddProduct">Add product</button>
-    <div class="mx-auto p-3 col-xl-6">
-        <table  class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Prep</th>
-                    <th>Command</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in goods">
-                    <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+item.img_id+'.png'"></td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.prep_defs}}</td>
-                    <td><div class="btn-group">
-                        <router-link class="btn btn-sm" tag="button" :to="'/good/'+item.id">
-                            <span class="btn material-icons">edit</span></router-link>
-                        <span class="btn material-icons">delete</span></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <el-button type="primary" icon="el-icon-plus" @click="addProduct">Add record</el-button>
+    <div class="container mx-auto p-3 col-xl-6">
+    <el-table style="margin: auto" :data="page">
+        <el-table-column
+                label="Picture"
+                width="75"
+        >
+            <template v-slot="scope">
+                <img class="goods-img" :src="'http://localhost:3000/images/products/'+scope.row.img_id+'.png'">
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="Name"
+                width="200">
+        </el-table-column>
+        <el-table-column
+                prop="prep_defs"
+                label="Prep"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                label="Command"
+                width="150"
+        >
+            <template v-slot="scope">
+                <el-button-group>
+                    <el-button type="primary" icon="el-icon-edit" @click="editRow(scope.row.id)" ></el-button>
+                    <el-button type="primary" icon="el-icon-delete"></el-button>
+                </el-button-group>
+            </template>
+        </el-table-column>
+    </el-table>
+        <el-pagination
+                background
+                layout="prev, pager, next"
+                @current-change="handleCurrentChange"
+                :page-size="pageSize"
+                :total="total">
+        </el-pagination>
     </div>
-
 
 </template>
 
@@ -38,22 +53,36 @@
         name: "Goods",
         data() {
             return{
-                goods:[]
+                goods:[],
+                page:[],
+                pageSize: 10,
+                curPage:1,
+                total: 0
+
             }
         },
         methods:{
-            AddProduct()
+            addProduct()
             {
                 this.$router.push('/good/-1')
+            },
+            editRow(id){this.$router.push('/good/'+id)},
+            handleCurrentChange(cpage){this.curPage=cpage;this.getPage()},
+            getPage()
+            {
+                let start=this.pageSize*(this.curPage-1);
+                let cnt=start+this.pageSize
+                this.page=this.goods.slice(start,cnt)
             }
         },
         async mounted() {
 
             await backend.get('goods').then((response) => {
                 this.goods=response.data
-                //console.log(response.data)
             })
-        }
+            this.total=this.goods.length
+            this.getPage()
+        },
     }
 
 
@@ -63,33 +92,8 @@
     .goods-img{
         width: 60px; height: 60px;
     }
-
-    .material-icons{
-        color: #3b6c9d;
+    .container{
+        width: 600px;
     }
 
-    .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;  /* Preferred icon size */
-        display: inline-block;
-        line-height: 1;
-        text-transform: none;
-        letter-spacing: normal;
-        word-wrap: normal;
-        white-space: nowrap;
-        direction: ltr;
-
-        /* Support for all WebKit browsers. */
-        -webkit-font-smoothing: antialiased;
-        /* Support for Safari and Chrome. */
-        text-rendering: optimizeLegibility;
-
-        /* Support for Firefox. */
-        -moz-osx-font-smoothing: grayscale;
-
-        /* Support for IE. */
-        font-feature-settings: 'liga';
-    }
 </style>
