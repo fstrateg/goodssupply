@@ -1,6 +1,7 @@
 <template>
     <div class="container" v-if="record">
     <div v-if="record.id">id: {{record.id}}</div>
+        {{record}}
         <form @submit.prevent="SaveRecord">
             <fieldset class="row">
             <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
@@ -16,6 +17,7 @@
                 <el-date-picker style="display: flex" v-model="record.dat"
                                 type="date"
                                 format="DD.MM.YYYY"
+                                value-format="YYYY-MM-DD"
                                 placeholder="Pick a day"
                 >
                 </el-date-picker>
@@ -89,6 +91,7 @@
     import { ElDatePicker } from 'element-plus'
     import 'element-plus/dist/index.css'
     import {backend} from "../backend";
+    import moment from 'moment'
 
     export default {
         name: "Supply",
@@ -120,11 +123,13 @@
         async created(){
             var id=this.$route.params['id'];
             await backend.get('supplybyid/'+id).then((response) => {
-                if (response.data.length>0)
-                    this.record=response.data[0];
+                if (response.data.length>0) {
+                    this.record = response.data[0];
+                    this.record.dat=moment(this.record.dat).format('YYYY-MM-DD')
+                }
                 else
                 {
-                    this.record.dat=new Date().toDateString();
+                    this.record.dat=moment(moment.now()).format('YYYY-MM-DD');
                 }
             });
             await backend.get('sprgoods').then((response) => {

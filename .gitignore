@@ -21,3 +21,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+/client.bat
+/.vs/goodssupply/config/applicationhost.config
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json

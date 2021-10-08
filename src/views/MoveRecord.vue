@@ -1,7 +1,7 @@
 <template>
     <h3>{{getCaption()}}</h3>
     <div class="container cnt" v-if="record">
-    <form @submit.prevent="SaveRecord">
+    <form id="frm" @submit.prevent="SaveRecord">
         <fieldset>
             <div class="row">
             <div class="mb-3 col">
@@ -40,10 +40,11 @@
         </fieldset>
         <div class="row">
             <div class="col-12 mt-3">
-                <button type="submit" class="btn btn-primary">
+                <el-button type="primary" icon="el-icon-check" @click="PrepareSave">Save</el-button>
+                <!--button type="submit" class="btn btn-primary">
                     <span class="material-icons b-img">save</span>
                     <span> Save</span>
-                </button>
+                </button-->
             </div>
         </div>
     </form>
@@ -81,8 +82,12 @@
                     this.record.id=parseInt(this.$route.params['id'])
                     if (!isNaN(this.record.id))
                         if (this.record.id>=0) return "Edit record"
-                    this.record.dat=moment().format()
+                    //this.record.dat=moment().format()
                     return 'Add record'
+                },
+                PrepareSave()
+                {
+                    document.forms[0].submit()
                 },
                 SaveRecord()
                 {
@@ -96,18 +101,20 @@
         async created() {
             let id = this.$route.params['id'];
             await backend.get('move/'+id).then((response) => {
-                if (response.data.length>0)
-                    this.record=response.data[0];
+                if (response.data.length>0) {
+                    this.record = response.data[0];
+                    this.record.dat = moment(this.record.dat).format('YYYY-MM-DD')
+                }
             });
             await backend.get('sprgoods').then((response) => {
                 if (response.data.length > 0)
                     this.sprgoods = response.data;
             });
+            console.log(this.record)
         }
     }
 </script>
 
 <style scoped>
-    .btn{vertical-align: middle}
     .cnt{max-width: 300px;}
 </style>
