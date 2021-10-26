@@ -40,7 +40,7 @@
         </fieldset>
         <div class="row">
             <div class="col-12 mt-3">
-                <el-button type="primary" icon="el-icon-check" @click="PrepareSave">Save</el-button>
+                <el-button type="primary" icon="el-icon-check" @click="SaveRecord">Save</el-button>
                 <!--button type="submit" class="btn btn-primary">
                     <span class="material-icons b-img">save</span>
                     <span> Save</span>

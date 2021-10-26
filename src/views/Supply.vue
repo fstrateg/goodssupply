@@ -1,7 +1,6 @@
 <template>
     <div class="container" v-if="record">
     <div v-if="record.id">id: {{record.id}}</div>
-        {{record}}
         <form @submit.prevent="SaveRecord">
             <fieldset class="row">
             <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
