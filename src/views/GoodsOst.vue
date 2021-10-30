@@ -7,7 +7,7 @@
                     width="75"
             >
                 <template v-slot="scope">
-                    <img class="goods-img" :src="'http://localhost:3000/images/products/'+scope.row.img_id+'.png'">
+                    <img class="goods-img" :src="getImage(scope.row.img_id)">
                 </template>
             </el-table-column>
             <el-table-column
@@ -26,6 +26,7 @@
 
 <script>
     import {backend} from "../backend";
+    const {config} =require('../config')
 
     export default {
         name: "GoodsOst",
@@ -33,6 +34,11 @@
             return{
                 remains:[],
                 total:10
+            }
+        },
+        methods:{
+            getImage(image_id){
+                return config.Image_url+'products/'+image_id+'.png'
             }
         },
         async mounted() {
@@ -52,8 +58,5 @@
 <style scoped>
     .container{
         width: 600px;
-    }
-    .goods-img{
-        width: 60px; height: 60px;
     }
 </style>

@@ -1,14 +1,23 @@
 <template>
   <div class="home">
     <h1>Supplies</h1>
-    <el-button type="primary" icon="el-icon-plus" @click="AddSupply">Add supply</el-button>
+    <div class="mx-auto p-3 col-xl-10">
+      <div class="row">
+        <div class="text-start col-6">
+          <el-button type="primary" icon="el-icon-plus" @click="AddSupply">Add supply</el-button>
+        </div>
+        <div class="text-end col-6">
+          <el-button type="primary" icon="el-icon-setting" @click="AddSupply">Show all</el-button>
+        </div>
+      </div>
+    </div>
     <div class="mx-auto p-3 col-xl-10">
       <el-table style="margin: auto" :data="supplys">
         <el-table-column
                 label="Name"
                 prop="good_name"
                 width="200"
-        ><template v-slot="scope"><img class="goods-img" :src="'http://localhost:3000/images/products/'+scope.row.img_id+'.png'"/>{{scope.row.good_name}}</template>
+        ><template v-slot="scope"><img class="goods-img" :src="getImage(scope.row.img_id)"/>{{scope.row.good_name}}</template>
         </el-table-column>
         <el-table-column
                 label="Created"
@@ -29,6 +38,10 @@
             label="First cost"
             prop="price">
           <template v-slot="scope"><b>{{scope.row.price}}</b></template>
+        </el-table-column>
+        <el-table-column
+                label="Price"
+                prop="salles_price">
         </el-table-column>
         <el-table-column
             label="FBA"
@@ -80,6 +93,7 @@
 
   const {backend} =require('../backend')
   const moment=require('moment')
+  const {config} =require('../config')
 
   export default {
     name: "Home",
@@ -98,6 +112,9 @@
       editRow(id)
       {
         this.$router.push('/supply/'+id)
+      },
+      getImage(image_id){
+        return config.Image_url+'products/'+image_id+'.png'
       },
       format_date(value){
         if (value) {

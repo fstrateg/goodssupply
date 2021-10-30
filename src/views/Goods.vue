@@ -10,7 +10,7 @@
                 width="75"
         >
             <template v-slot="scope">
-                <img class="goods-img" :src="'http://localhost:3000/images/products/'+scope.row.img_id+'.png'">
+                <img class="goods-img" :src="getImage(scope.row.img_id)">
             </template>
         </el-table-column>
         <el-table-column
@@ -48,6 +48,7 @@
 
 <script>
     import {backend} from "../backend";
+    const {config} =require('../config')
 
     export default {
         name: "Goods",
@@ -68,6 +69,9 @@
             },
             editRow(id){this.$router.push('/good/'+id)},
             handleCurrentChange(cpage){this.curPage=cpage;this.getPage()},
+            getImage(image_id){
+                return config.Image_url+'products/'+image_id+'.png'
+            },
             getPage()
             {
                 let start=this.pageSize*(this.curPage-1);
@@ -89,9 +93,6 @@
 </script>
 
 <style scoped>
-    .goods-img{
-        width: 60px; height: 60px;
-    }
     .container{
         width: 600px;
     }

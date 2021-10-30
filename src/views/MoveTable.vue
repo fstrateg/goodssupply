@@ -8,7 +8,7 @@
                 width="75"
         >
             <template v-slot="scope">
-                <img class="goods-img" :src="'http://localhost:3000/images/products/'+scope.row.img_id+'.png'">
+                <img class="goods-img" :src="getImage(scope.row.img_id)">
             </template>
         </el-table-column>
         <el-table-column
@@ -32,11 +32,11 @@
         <el-table-column
                 prop="note"
                 label="Note"
-                width="200">
+                width="250">
         </el-table-column>
         <el-table-column
                 label="Command"
-                width="150"
+                width="100"
         >
             <template v-slot="scope">
                 <el-button-group>
@@ -59,6 +59,7 @@
 <script>
     import {backend} from "../backend";
     const moment=require('moment')
+    const {config} =require('../config')
 
     export default {
         name: "MoveTable",
@@ -86,6 +87,9 @@
                     this.rows=response.data
                 })
             },
+            getImage(image_id){
+                return config.Image_url+'products/'+image_id+'.png'
+            },
             editRow(id){this.$router.push('/move/'+id)},
             addRecord(){this.$router.push('/move/-1')},
             deleteRecord(id){
@@ -106,8 +110,5 @@
 <style scoped>
     .container{
         width: 800px;
-    }
-    .goods-img{
-        width: 60px; height: 60px;
     }
 </style>

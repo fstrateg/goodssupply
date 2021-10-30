@@ -17,6 +17,12 @@
   text-align: center;
   color: #2c3e50;
 }
+#app .el-table, #app .el-table .el-button{
+  font-size: 12px;
+}
+.cell .el-button-group>.el-button{
+  padding: 0 10px;
+}
 
 #nav {
   padding: 30px;
@@ -26,5 +32,9 @@
   font-weight: bold;
   padding: 5px 10px;
   color: #2c3e50;
+}
+.goods-img{
+  width: 40px;
+  height: 40px;
 }
 </style>

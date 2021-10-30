@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             <tr v-for="rw in rows">
-                <td><img class="goods-img" :src="'http://localhost:3000/images/products/'+rw.img_id+'.png'"></td>
+                <td><img class="goods-img" :src="getImage(rw.img_id)"></td>
                 <td>{{format_date(rw.dat)}}</td>
                 <td class="text-start">{{rw.name}}</td>
                 <td>{{rw.qua}}</td>
@@ -35,6 +35,7 @@
 <script>
     import {backend} from "../backend";
     const moment=require('moment')
+    const {config} =require('../config')
 
     export default {
         name: "Moving",
@@ -54,6 +55,10 @@
             DeleteRecord(id){
                 if (confirm("You really want delete this record?"))
                     backend.get('movedelete/'+id)
+            },
+            getImage(image_id){
+                debugger
+                return config.Image_url+'products/'+image_id+'.png'
             }
         },
         async mounted() {
@@ -64,9 +69,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .goods-img{
-        width: 60px; height: 60px;
-    }
-</style>
