@@ -25,3 +25,4 @@ pnpm-debug.log*
 /.vs/goodssupply/config/applicationhost.config
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
+/src/config.js

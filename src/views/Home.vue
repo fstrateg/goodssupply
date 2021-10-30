@@ -126,7 +126,6 @@
     async mounted() {
       await backend.get('supply').then((response) => {
         this.supplys=response.data
-        console.log(this.supplys)
       })
     }
   }
