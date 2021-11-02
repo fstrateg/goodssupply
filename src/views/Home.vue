@@ -1,13 +1,23 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="filters">
     <h1>Supplies</h1>
+
+
+
+
     <div class="mx-auto p-3 col-xl-10">
       <div class="row">
         <div class="text-start col-6">
           <el-button type="primary" icon="el-icon-plus" @click="AddSupply">Add supply</el-button>
         </div>
         <div class="text-end col-6">
-          <el-button type="primary" icon="el-icon-setting" @click="AddSupply">Show all</el-button>
+          <select id="good"  class="form-control col-6 me-2" v-model="filters.good">
+            <option v-for="option in sprgoods" :value="option.id">
+              {{ option.name }}
+            </option>
+          </select>
+          <!--el-select class="me-2"></el-select-->
+          <el-button type="primary" icon="el-icon-refresh" @click="refresh">Refresh</el-button>
         </div>
       </div>
     </div>
@@ -99,7 +109,13 @@
     name: "Home",
     data() {
       return{
-        supplys:[]
+        supplys:[],
+        good:'',
+        filters:{
+          archived:'T',
+          good:''
+        },
+        sprgoods:[{id:0,name:'test'}]
       }
     },
 
@@ -116,6 +132,11 @@
       getImage(image_id){
         return config.Image_url+'products/'+image_id+'.png'
       },
+      refresh(){
+        backend.get('supply').then((response) => {
+          this.supplys=response.data
+        })
+      },
       format_date(value){
         if (value) {
           return moment(String(value)).format('DD.MM.YYYY')
@@ -123,10 +144,12 @@
         }
       },
     },
-    async mounted() {
-      await backend.get('supply').then((response) => {
-        this.supplys=response.data
-      })
+    async created() {
+      await backend.get('sprgoods').then((response) => {
+        if (response.data.length > 0)
+          this.sprgoods = response.data;
+      });
+      console.log(this.sprgoods)
     }
   }
 </script>
