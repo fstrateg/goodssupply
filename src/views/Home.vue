@@ -10,12 +10,23 @@
         <div class="text-start col-6">
           <el-button type="primary" icon="el-icon-plus" @click="AddSupply">Add supply</el-button>
         </div>
-        <div class="text-end col-6">
+        <div class="col-2">
           <select id="good"  class="form-control col-6 me-2" v-model="filters.good">
-            <option v-for="option in sprgoods" :value="option.id">
+            <option v-for="option in sprgoods" :value="option.id" :key="option.id">
               {{ option.name }}
             </option>
           </select>
+          
+        </div>
+        <div class="col-2">
+          <select id="type"  class="form-control col-6 me-2" v-model="filters.done">
+            <option v-for="option in spractive" :value="option.id" :key="option.id">
+              {{ option.name }}
+            </option>
+          </select>
+          
+        </div>
+        <div class="text-end col-2">
           <!--el-select class="me-2"></el-select-->
           <el-button type="primary" icon="el-icon-refresh" @click="refresh">Refresh</el-button>
         </div>
@@ -112,10 +123,13 @@
         supplys:[],
         good:'',
         filters:{
-          archived:'T',
-          good:''
+          done:'False',
+          good: 0
         },
-        sprgoods:[{id:0,name:'test'}]
+        sprgoods:[{id:0,name:'test'}],
+        spractive:[ {id:'True',name:'Active'},
+                    {id:'False',name:'(All)'}
+                  ]
       }
     },
 
@@ -147,7 +161,7 @@
     async created() {
       await backend.get('sprgoods').then((response) => {
         if (response.data.length > 0)
-          this.sprgoods = response.data;
+          this.sprgoods = [{id:0, name:'(All)'}].concat(response.data)
       });
       console.log(this.sprgoods)
     }
