@@ -127,8 +127,8 @@
           good: 0
         },
         sprgoods:[{id:0,name:'test'}],
-        spractive:[ {id:'True',name:'Active'},
-                    {id:'False',name:'(All)'}
+        spractive:[ {id:'True',name:'(All)'},
+                    {id:'False',name:'Active'}
                   ]
       }
     },
@@ -147,7 +147,8 @@
         return config.Image_url+'products/'+image_id+'.png'
       },
       refresh(){
-        backend.get('supply').then((response) => {
+        let param={params:{filter:this.filters}}
+        backend.get('supply',param).then((response) => {
           this.supplys=response.data
         })
       },
@@ -163,7 +164,6 @@
         if (response.data.length > 0)
           this.sprgoods = [{id:0, name:'(All)'}].concat(response.data)
       });
-      console.log(this.sprgoods)
     }
   }
 </script>
