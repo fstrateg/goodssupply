@@ -85,12 +85,14 @@
         </el-table-column>
         <el-table-column
             label="Command"
+            width="120"
           >
           <template v-slot="scope">
-            <el-button-group>
-            <el-button type="primary" icon="el-icon-edit" @click="editRow(scope.row.id)" ></el-button>
-            <el-button type="primary" icon="el-icon-delete"></el-button>
-            </el-button-group>
+              <el-button-group>
+                  <el-button type="primary" icon="el-icon-edit" @click="editRow(scope.row.id)"></el-button>
+                  <el-button type="primary" icon="el-icon-copy-document" @click="copyRow(scope.row.id)"></el-button>
+                  <el-button type="primary" icon="el-icon-delete" @click="deleteRow(scope.row.id)"></el-button>
+              </el-button-group>
           </template>
 
         </el-table-column>
@@ -137,12 +139,22 @@
     methods: {
       AddSupply()
       {
-        this.$router.push('/supply/id=-1');
+        this.$router.push('/supply/id=-1')
       },
       editRow(id)
       {
         this.$router.push('/supply/'+id)
-      },
+        },
+        copyRow(id) {
+            this.$router.push('/supply/'+id+'?oper=new')
+        },
+        async deleteRow(id) {
+            if (confirm('Are you sure what you want delete record?')) {
+                await backend.delete('supply/del/' + id).then((resp) => {
+                    this.refresh()
+                })
+            }
+        },
       getImage(image_id){
         return config.Image_url+'products/'+image_id+'.png'
       },
@@ -164,6 +176,7 @@
         if (response.data.length > 0)
           this.sprgoods = [{id:0, name:'(All)'}].concat(response.data)
       });
+      this.refresh()
     }
   }
 </script>

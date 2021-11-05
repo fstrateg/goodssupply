@@ -120,11 +120,18 @@
                 ElDatePicker,
             },
         async created(){
-            var id=this.$route.params['id'];
+            let id = this.$route.params['id']
+            let oper = this.$route.query.oper;
+            console.log(oper)
             await backend.get('supplybyid/'+id).then((response) => {
                 if (response.data.length>0) {
                     this.record = response.data[0];
-                    this.record.dat=moment(this.record.dat).format('YYYY-MM-DD')
+                    this.record.dat = moment(this.record.dat).format('YYYY-MM-DD')
+                    if (oper == 'new') {
+                        this.record.id = NaN
+                        this.record.dat = this.record.dat = moment(moment.now()).format('YYYY-MM-DD');
+
+                    }
                 }
                 else
                 {
